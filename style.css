@@ -2,6 +2,8 @@ body {
     font-family: Arial, sans-serif;
     text-align: center;
     height: 100vh;
+    overflow-y: hidden;
+    padding-top: 10px;
 }
 
 .booster {
@@ -12,16 +14,19 @@ body {
 
 .cards-container {
     display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    height: 330px;
+    overflow: scroll;
+    width: 100%;
 }
 
 .card {
     margin: 5px;
+    margin-top: 10px;
     position: relative;
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
+    min-width: 280px;
+    max-width: 280px;
+
 }
 
 .card img {

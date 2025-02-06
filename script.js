@@ -50,8 +50,8 @@ async function openPack() {
 
     // Hide the booster and display the reveal button
     booster.style.opacity = "0";
+    booster.style.display = "none";
     setTimeout(() => {
-        booster.style.display = "none";
         revealNextButton.style.display = "inline-block"; // Show the next card button
     }, 500);
 
