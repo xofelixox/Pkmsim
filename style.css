@@ -6,10 +6,22 @@ body {
     padding-top: 10px;
 }
 
+#menu {
+    margin-bottom: 20px;
+}
+
+#menu select {
+    padding: 5px;
+    font-size: 16px;
+}
+
 .booster {
     display: inline-block;
     cursor: pointer;
     margin: 20px;
+    img {
+        height: 390px;
+    }
 }
 
 .cards-container {

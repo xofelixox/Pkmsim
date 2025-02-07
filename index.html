@@ -7,10 +7,28 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="booster" class="booster">
-        <img src="pack.png" alt="Booster Pack" />
+    <div id="menu">
+        <label for="set-select">Choose a Set:</label>
+        <select id="set-select">
+            <option value="swsh12pt5">Prismatic Evolutions</option>
+            <option value="swsh45">Shining Fates</option>
+            <option value="swsh5">Battle Styles</option>
+            <option value="swsh7">Evolving Skies</option>
+            <option value="swsh8">Fusion Strike</option>
+            <option value="sv7">Stellar Crown</option>
+            <option value="sv6">Twilight Masquerade</option>
+            <option value="xy7">Ancient Origins</option>
+            <option value="cel25">Celebrations</option>
+            <option value="base6">Legendary Collection</option>
+        </select>
     </div>
+    
+    <div id="booster" class="booster">
+        <img id="booster-img" src="packs/swsh12pt5.png" alt="Booster Pack" />
+    </div>
+
     <div id="cards-container" class="cards-container"></div>
+
     <div id="actions">
         <button id="reveal-next" style="display: none;">Reveal Next Card</button>
         <button id="reset" style="display: none;">Open Another Pack</button>

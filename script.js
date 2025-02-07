@@ -1,30 +1,30 @@
 const booster = document.getElementById("booster");
+const boosterImg = document.getElementById("booster-img"); // New booster image element
 const cardsContainer = document.getElementById("cards-container");
 const revealNextButton = document.getElementById("reveal-next");
 const resetButton = document.getElementById("reset");
+const setSelect = document.getElementById("set-select");
 
 let cards = [];
 let currentCardIndex = 0;
 let isOpening = false;
 
-// URL for the GitHub raw JSON (specific set)
-const jsonUrl = "https://raw.githubusercontent.com/PokemonTCG/pokemon-tcg-data/master/cards/en/swsh12pt5.json";
+// Default set URL & booster image
+let currentSet = "swsh12pt5";
+let jsonUrl = `https://raw.githubusercontent.com/PokemonTCG/pokemon-tcg-data/master/cards/en/${currentSet}.json`;
 
-// Fetch the card data from the GitHub JSON
+// Fetch card data based on the selected set
 async function fetchCards() {
     try {
         const response = await fetch(jsonUrl);
         const data = await response.json();
         
         if (data && Array.isArray(data)) {
-            // Map the data to extract the necessary information
-            const cardData = data.map(card => ({
+            return data.map(card => ({
                 name: card.name,
-                imageUrl: card.images.large, // Large image
-                rarity: card.rarity,
+                imageUrl: card.images.large,
+                rarity: card.rarity
             }));
-
-            return cardData;
         } else {
             console.error("No cards found in the JSON data");
             return [];
@@ -35,46 +35,43 @@ async function fetchCards() {
     }
 }
 
-// Shuffle function to randomize the array
+// Shuffle function
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+        [array[i], array[j]] = [array[j], array[i]];
     }
 }
 
-// Open the pack and reveal cards one by one
+// Open a new booster pack
 async function openPack() {
-    if (isOpening) return; // Prevent multiple clicks during opening
+    if (isOpening) return;
     isOpening = true;
 
-    // Hide the booster and display the reveal button
     booster.style.opacity = "0";
     booster.style.display = "none";
+
     setTimeout(() => {
-        revealNextButton.style.display = "inline-block"; // Show the next card button
+        revealNextButton.style.display = "inline-block";
     }, 500);
 
-    // Fetch the cards from the JSON
+    // Fetch new cards based on the selected set
     cards = await fetchCards();
 
-    // Shuffle the cards and select 5 random cards
     if (cards.length > 0) {
         shuffleArray(cards);
-        cards = cards.slice(0, 5); // Pick the first 5 shuffled cards
+        cards = cards.slice(0, 5);
     }
 
-    // Check if cards are available
     if (!cards || cards.length === 0) {
         console.error("No cards to display");
         return;
     }
 
-    // Show the first card
     revealNextCard();
 }
 
-// Reveal the next card in the sequence
+// Reveal the next card
 function revealNextCard() {
     if (currentCardIndex >= 5) {
         resetPack();
@@ -85,35 +82,29 @@ function revealNextCard() {
     const cardDiv = document.createElement("div");
     cardDiv.classList.add("card");
 
-    // Create the card image
     const img = document.createElement("img");
     img.src = cardData.imageUrl;
 
-    // Create the star symbol for collection
     const star = document.createElement("div");
     star.classList.add("star");
     star.innerHTML = "★";
 
-    // Add the image and star to the card
     cardDiv.appendChild(img);
     cardDiv.appendChild(star);
 
-    // Display the card
     cardsContainer.appendChild(cardDiv);
 
-    // Fade in the card
     setTimeout(() => {
         cardDiv.style.opacity = "1";
     }, 100);
 
-    // Increase the index and prepare for the next card
     currentCardIndex++;
 }
 
-// Reset the pack after all cards are revealed
+// Reset the pack
 function resetPack() {
-    resetButton.style.display = "inline-block"; // Show the reset button
-    revealNextButton.style.display = "none"; // Hide the reveal button
+    resetButton.style.display = "inline-block";
+    revealNextButton.style.display = "none";
     isOpening = false;
 }
 
@@ -121,10 +112,26 @@ function resetPack() {
 booster.addEventListener("click", openPack);
 revealNextButton.addEventListener("click", revealNextCard);
 resetButton.addEventListener("click", () => {
-    // Reset the container and reappear the booster
     cardsContainer.innerHTML = "";
     currentCardIndex = 0;
     resetButton.style.display = "none";
     booster.style.display = "inline-block";
     booster.style.opacity = "1";
+});
+
+// Update JSON URL and reset when a new set is selected
+setSelect.addEventListener("change", () => {
+    currentSet = setSelect.value;
+    jsonUrl = `https://raw.githubusercontent.com/PokemonTCG/pokemon-tcg-data/master/cards/en/${currentSet}.json`;
+
+    // Reset everything and update booster pack image
+    cardsContainer.innerHTML = "";
+    currentCardIndex = 0;
+    isOpening = false;
+
+    boosterImg.src = `packs/${currentSet}.png`; // Update booster image
+    booster.style.display = "inline-block";
+    booster.style.opacity = "1";
+    revealNextButton.style.display = "none";
+    resetButton.style.display = "none";
 });
