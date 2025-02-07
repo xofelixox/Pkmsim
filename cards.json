@@ -8,5 +8,10 @@
     "name": "Umbreon ex",
     "imageUrl": "https://images.pokemontcg.io/sv8pt5/60_hires.png",
     "rarity": "Double Rare"
+  },
+  {
+    "name": "Black Belt's Training",
+    "imageUrl": "https://images.pokemontcg.io/sv8pt5/96_hires.png",
+    "rarity": "Common"
   }
 ]
