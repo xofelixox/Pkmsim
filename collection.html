@@ -86,13 +86,30 @@
         async function loadCollection() {
             const collectionContainer = document.getElementById("collection-container");
 
-            let likedCards = getLikedCardsFromLocalStorage();
+            // Fetch cards from GitHub
+            let githubCards = await getLikedCardsFromGitHub();
+            
+            // Fetch cards from localStorage
+            let localCards = getLikedCardsFromLocalStorage();
 
-            likedCards.sort((a, b) => a.name.localeCompare(b.name));
+            // Merge both collections, avoiding duplicates
+            let mergedCards = [...localCards];
+
+            githubCards.forEach(githubCard => {
+                if (!mergedCards.some(localCard => localCard.imageUrl === githubCard.imageUrl)) {
+                    mergedCards.push(githubCard);
+                }
+            });
+
+            // Save the merged collection back to localStorage (optional)
+            saveLikedCardsToLocalStorage(mergedCards);
+
+            // Sort alphabetically
+            mergedCards.sort((a, b) => a.name.localeCompare(b.name));
 
             collectionContainer.innerHTML = "";
 
-            likedCards.forEach(card => {
+            mergedCards.forEach(card => {
                 const cardDiv = document.createElement("div");
                 cardDiv.classList.add("card");
 
@@ -113,6 +130,7 @@
                 collectionContainer.appendChild(cardDiv);
             });
         }
+
 
         async function syncWithGitHub() {
             const likedCards = getLikedCardsFromLocalStorage();
