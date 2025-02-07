@@ -1,6 +1,16 @@
 [
   {
     "name": "Leafeon VMAX",
+    "imageUrl": "https://images.pokemontcg.io/swsh7/204_hires.png",
+    "rarity": "Rare Rainbow"
+  },
+  {
+    "name": "Leafeon VMAX",
+    "imageUrl": "https://images.pokemontcg.io/swsh7/205_hires.png",
+    "rarity": "Rare Rainbow"
+  },
+  {
+    "name": "Leafeon VMAX",
     "imageUrl": "https://images.pokemontcg.io/swsh7/8_hires.png",
     "rarity": "Rare Holo VMAX"
   }
