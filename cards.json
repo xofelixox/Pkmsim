@@ -3,5 +3,10 @@
     "name": "Carmine",
     "imageUrl": "https://images.pokemontcg.io/sv8pt5/103_hires.png",
     "rarity": "Uncommon"
+  },
+  {
+    "name": "Umbreon ex",
+    "imageUrl": "https://images.pokemontcg.io/sv8pt5/60_hires.png",
+    "rarity": "Double Rare"
   }
 ]
