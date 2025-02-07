@@ -10,13 +10,13 @@
     "rarity": "Rare Rainbow"
   },
   {
-    "name": "Leafeon VMAX",
-    "imageUrl": "https://images.pokemontcg.io/swsh7/8_hires.png",
-    "rarity": "Rare Holo VMAX"
-  },
-  {
     "name": "Treasure Tracker",
     "imageUrl": "https://images.pokemontcg.io/sv8pt5/131_hires.png",
     "rarity": "ACE SPEC Rare"
+  },
+  {
+    "name": "Leafeon VMAX",
+    "imageUrl": "https://images.pokemontcg.io/swsh7/8_hires.png",
+    "rarity": "Rare Holo VMAX"
   }
 ]
