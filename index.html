@@ -7,8 +7,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <a href="collection.html" id="collection-btn">★</a>
+    
     <div id="menu">
-        <label for="set-select">Choose a Set:</label>
+        <label for="set-select"></label>
         <select id="set-select">
             <option value="sv8pt5">Prismatic Evolutions</option>
             <option value="swsh45">Shining Fates</option>
@@ -25,13 +27,13 @@
     <div id="booster" class="booster">
         <img id="booster-img" src="packs/sv8pt5.png" alt="Booster Pack" />
     </div>
-
-    <div id="cards-container" class="cards-container"></div>
-
+    
     <div id="actions">
         <button id="reveal-next" style="display: none;">Reveal Next Card</button>
         <button id="reset" style="display: none;">Open Another Pack</button>
     </div>
+
+    <div id="cards-container" class="cards-container"></div>
 
     <script src="script.js"></script>
 </body>

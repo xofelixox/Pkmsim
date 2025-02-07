@@ -1,9 +1,23 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    height: 100vh;
-    overflow-y: hidden;
     padding-top: 10px;
+    background-color: #2f2f2f;
+    color: #ccc;
+}
+
+#collection-btn {
+    font-size: 40px;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    cursor: pointer;
+    position: fixed;
+    top: 0px; 
+    right: 10px; 
+}
+
+#collection-btn:hover {
+    color: #ffd900; 
 }
 
 #menu {
@@ -13,6 +27,8 @@ body {
 #menu select {
     padding: 5px;
     font-size: 16px;
+    background-color: #444;
+    color: white;
 }
 
 .booster {
@@ -26,15 +42,20 @@ body {
 
 .cards-container {
     display: flex;
-    overflow: scroll;
+    overflow: auto;
     width: 100%;
+}
+
+@media (min-width: 768px) {
+    .cards-container {
+        flex-wrap: wrap;
+    }
 }
 
 .card {
     margin: 5px;
     margin-top: 10px;
     position: relative;
-    opacity: 0;
     transition: opacity 0.3s ease-in-out;
     min-width: 280px;
     max-width: 280px;
@@ -52,17 +73,23 @@ body {
     top: -20px;
     right: -10px;
     font-size: 30px;
-    color: black;
+    color: #ffd900; 
     cursor: pointer;
 }
 
 button {
-    margin-top: 20px;
+    margin-bottom: 20px;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
+    background-color: #444; 
+    color: white; 
 }
 
 button:hover {
-    background-color: #ddd;
+    background-color: #555; 
+}
+
+a {
+    color: white;
 }

@@ -51,9 +51,7 @@ async function openPack() {
     booster.style.opacity = "0";
     booster.style.display = "none";
 
-    setTimeout(() => {
-        revealNextButton.style.display = "inline-block";
-    }, 500);
+    revealNextButton.style.display = "inline-block";
 
     // Fetch new cards based on the selected set
     cards = await fetchCards();
@@ -88,6 +86,12 @@ function revealNextCard() {
     const star = document.createElement("div");
     star.classList.add("star");
     star.innerHTML = "★";
+
+     // Add click event to save to collection
+     star.addEventListener("click", () => {
+        likeCard(cardData);
+        star.style.color = "red";
+    });
 
     cardDiv.appendChild(img);
     cardDiv.appendChild(star);
@@ -135,3 +139,24 @@ setSelect.addEventListener("change", () => {
     revealNextButton.style.display = "none";
     resetButton.style.display = "none";
 });
+
+// Load liked cards from localStorage
+function getLikedCards() {
+    return JSON.parse(localStorage.getItem("likedCards")) || [];
+}
+
+// Save liked cards to localStorage
+function saveLikedCards(likedCards) {
+    localStorage.setItem("likedCards", JSON.stringify(likedCards));
+}
+
+// Function to handle liking a card
+function likeCard(card) {
+    let likedCards = getLikedCards();
+    
+    // Avoid duplicates
+    if (!likedCards.some(c => c.imageUrl === card.imageUrl)) {
+        likedCards.push(card);
+        saveLikedCards(likedCards);
+    }
+}

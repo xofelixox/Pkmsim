@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Collection</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>My Collection</h1>
+    <a href="index.html">Back to Packs</a>
+    <div id="collection-container" class="cards-container"></div>
+
+    <script>
+        // Load liked cards from localStorage
+        function getLikedCards() {
+            return JSON.parse(localStorage.getItem("likedCards")) || [];
+        }
+
+        // Save liked cards to localStorage
+        function saveLikedCards(likedCards) {
+            localStorage.setItem("likedCards", JSON.stringify(likedCards));
+        }
+
+        // Function to remove a card from collection
+        function removeCard(imageUrl) {
+            let likedCards = getLikedCards();
+            likedCards = likedCards.filter(card => card.imageUrl !== imageUrl);
+            saveLikedCards(likedCards);
+            loadCollection(); // Refresh collection display
+        }
+
+        // Load and display the collection
+        function loadCollection() {
+            let collectionContainer = document.getElementById("collection-container");
+            let likedCards = getLikedCards();
+            
+            // Sort cards alphabetically by name
+            likedCards.sort((a, b) => a.name.localeCompare(b.name));
+
+            collectionContainer.innerHTML = "";
+
+            likedCards.forEach(card => {
+                const cardDiv = document.createElement("div");
+                cardDiv.classList.add("card");
+
+                const img = document.createElement("img");
+                img.src = card.imageUrl;
+
+                const star = document.createElement("div");
+                star.classList.add("star");
+                star.innerHTML = "★";
+                star.style.color = "gold"; // Yellow star for saved cards
+
+                // Remove card when star is clicked
+                star.addEventListener("click", () => {
+                    removeCard(card.imageUrl);
+                });
+
+                cardDiv.appendChild(img);
+                cardDiv.appendChild(star);
+                collectionContainer.appendChild(cardDiv);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", loadCollection);
+    </script>
+    <script src="https://cdn.supabase.io/js/supabase.js"></script>
+</body>
+</html>
