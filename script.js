@@ -4,6 +4,7 @@ const cardsContainer = document.getElementById("cards-container");
 const revealNextButton = document.getElementById("reveal-next");
 const resetButton = document.getElementById("reset");
 const setSelect = document.getElementById("set-select");
+const cardsUrl = 'https://raw.githubusercontent.com/xofelixox/Pkmsim/main/cards.json';
 
 let cards = [];
 let currentCardIndex = 0;
@@ -140,23 +141,116 @@ setSelect.addEventListener("change", () => {
     resetButton.style.display = "none";
 });
 
-// Load liked cards from localStorage
-function getLikedCards() {
-    return JSON.parse(localStorage.getItem("likedCards")) || [];
-}
+const apiUrl = 'https://api.github.com/repos/xofelixox/Pkmsim/contents/cards.json';
 
-// Save liked cards to localStorage
-function saveLikedCards(likedCards) {
-    localStorage.setItem("likedCards", JSON.stringify(likedCards));
-}
-
-// Function to handle liking a card
+// Handle liking a card and update GitHub JSON
 function likeCard(card) {
-    let likedCards = getLikedCards();
+    let likedCards = getLikedCardsFromLocalStorage();
     
     // Avoid duplicates
     if (!likedCards.some(c => c.imageUrl === card.imageUrl)) {
         likedCards.push(card);
-        saveLikedCards(likedCards);
+        saveLikedCardsToLocalStorage(likedCards);
     }
 }
+
+function getLikedCardsFromLocalStorage() {
+    return JSON.parse(localStorage.getItem("likedCards")) || [];
+}
+
+function saveLikedCardsToLocalStorage(likedCards) {
+    localStorage.setItem("likedCards", JSON.stringify(likedCards));
+}
+
+// Set the interval in milliseconds (5 minutes)
+const SYNC_INTERVAL = 5 * 60 * 1000; // 5 minutes in milliseconds
+
+// Get the last sync time from localStorage
+function getLastSyncTime() {
+    return parseInt(localStorage.getItem("lastSyncTime")) || 0;
+}
+
+// Update the last sync time in localStorage
+function setLastSyncTime() {
+    const currentTime = new Date().getTime();
+    localStorage.setItem("lastSyncTime", currentTime);
+}
+
+// Sync the liked cards with GitHub
+async function syncWithGitHub() {
+    let likedCards = getLikedCardsFromLocalStorage();
+    
+    // Optionally sync cards with GitHub here if needed
+    await saveLikedCardsToGitHub(likedCards);
+    alert('Collection synced with GitHub!');
+    
+    // Update the sync time after the sync is done
+    setLastSyncTime();
+}
+
+// Check if sync is needed when the page loads
+function checkSyncNeeded() {
+    const lastSyncTime = getLastSyncTime();
+    const currentTime = new Date().getTime();
+
+    // Check if 5 minutes have passed since the last sync
+    if (currentTime - lastSyncTime >= SYNC_INTERVAL) {
+        syncWithGitHub(); // Sync if 5 minutes have passed
+    }
+}
+
+// Start the sync process when the page is loaded
+document.addEventListener("DOMContentLoaded", function () {
+    checkSyncNeeded();
+
+    // Optionally set a timer to sync every 5 minutes
+    setInterval(syncWithGitHub, SYNC_INTERVAL);
+});
+
+// Save the liked cards from localStorage to GitHub's cards.json
+async function saveLikedCardsToGitHub(likedCards) {
+    const accessToken = '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'; // Replace with your GitHub token
+    const repoOwner = 'xofelixox'; // Replace with your GitHub username
+    const repoName = 'Pkmsim'; // Replace with your GitHub repository name
+    const filePath = 'cards.json'; // Path to your JSON file in the repository
+
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
+    
+    try {
+        // First, fetch the current file data from GitHub to get the sha (if it exists)
+        const getResponse = await fetch(apiUrl, {
+            headers: {
+                'Authorization': `token ${accessToken}`
+            }
+        });
+
+        const getData = await getResponse.json();
+        const sha = getData.sha; // Get the sha of the existing file to update it
+
+        // Prepare data to be saved to the file
+        const fileData = JSON.stringify(likedCards, null, 2);
+        
+        const response = await fetch(apiUrl, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `token ${accessToken}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: 'Sync liked cards with localStorage',
+                content: btoa(fileData), // Convert the JSON to base64 encoding
+                sha: sha // Include the sha to update the existing file
+            })
+        });
+
+        if (response.ok) {
+            console.log('Cards synced with GitHub successfully!');
+        } else {
+            console.error('Failed to sync cards with GitHub:', response.status, response.statusText);
+        }
+    } catch (error) {
+        console.error('Error syncing with GitHub:', error);
+    }
+}
+
+document.getElementById("sync-button").addEventListener("click", syncWithGitHub);

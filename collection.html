@@ -9,32 +9,94 @@
 <body>
     <h1>My Collection</h1>
     <a href="index.html">Back to Packs</a>
+
+    <button id="sync-button" title="Sync with GitHub">
+        <!-- SVG Sync Icon with white fill -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+            <path fill="white" d="M12 2C6.48 2 2 6.48 2 12C2 15.74 4.47 19.03 7.99 21.16L4.83 18.58C4.31 17.92 4.75 16.89 5.69 16.89H9V14H5.69C5.11 14 4.69 13.07 5.21 12.42L7.89 9.42C8.17 9.12 8.6 9.16 8.84 9.42C9.29 9.85 9.72 10.23 10.21 10.5C11.19 11.61 13.08 12 14.85 12C17.41 12 19.69 10.97 21.06 9.06C21.35 8.72 21.92 8.74 22.22 9.08L23.49 10.5C23.79 10.84 23.77 11.41 23.46 11.73C21.59 14.45 17.73 16 14 16C12.13 16 10.42 15.37 9.04 14.32C9.62 14.93 10 15.97 10 17C10 18.1 10.9 19 12 19C13.1 19 14 18.1 14 17H16C16 18.66 14.66 20 12 20C7.58 20 4 16.42 4 12C4 7.58 7.58 4 12 4C13.66 4 15.21 4.41 16.41 5.09C15.82 5.37 15.27 5.71 14.77 6.07C13.73 7.07 12.39 7.5 12 9Z"/>
+        </svg>
+    </button>
+
     <div id="collection-container" class="cards-container"></div>
 
     <script>
-        // Load liked cards from localStorage
-        function getLikedCards() {
+        const apiUrl = 'https://api.github.com/repos/xofelixox/Pkmsim/contents/cards.json';
+
+        // Fetch liked cards from GitHub API
+        async function getLikedCardsFromGitHub() {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+
+            if (data && data.content) {
+                // Decode Base64 content from GitHub API response
+                const jsonData = JSON.parse(atob(data.content));
+                return jsonData;
+            } else {
+                return [];
+            }
+        }
+
+        // Fetch liked cards from localStorage
+        function getLikedCardsFromLocalStorage() {
             return JSON.parse(localStorage.getItem("likedCards")) || [];
         }
 
         // Save liked cards to localStorage
-        function saveLikedCards(likedCards) {
+        function saveLikedCardsToLocalStorage(likedCards) {
             localStorage.setItem("likedCards", JSON.stringify(likedCards));
         }
 
-        // Function to remove a card from collection
-        function removeCard(imageUrl) {
-            let likedCards = getLikedCards();
+        // Remove card from collection (both locally and remotely)
+        async function removeCard(imageUrl) {
+            let likedCards = getLikedCardsFromLocalStorage();
             likedCards = likedCards.filter(card => card.imageUrl !== imageUrl);
-            saveLikedCards(likedCards);
-            loadCollection(); // Refresh collection display
+
+            saveLikedCardsToLocalStorage(likedCards); 
+            loadCollection();
+        }
+
+        // Save updated collection to GitHub JSON
+        async function saveLikedCardsToGitHub(likedCards) {
+            const json = JSON.stringify(likedCards, null, 2);
+
+            const token = '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'; 
+            const owner = 'xofelixox';
+            const repo = 'Pkmsim';
+            const path = 'cards.json';
+
+            const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+            const message = 'Update cards.json';
+
+            // Get the current file's SHA for updating
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: { 'Authorization': `token ${token}` },
+            });
+            const data = await response.json();
+            const sha = data.sha;
+
+            // Send the PUT request to update the file
+            await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: message,
+                    content: btoa(json),
+                    sha: sha,
+                }),
+            });
         }
 
         // Load and display the collection
-        function loadCollection() {
-            let collectionContainer = document.getElementById("collection-container");
-            let likedCards = getLikedCards();
-            
+        async function loadCollection() {
+            const collectionContainer = document.getElementById("collection-container");
+
+            // Fetch liked cards first from localStorage (this will include unsynced changes)
+            let likedCards = getLikedCardsFromLocalStorage();
+
             // Sort cards alphabetically by name
             likedCards.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -50,9 +112,9 @@
                 const star = document.createElement("div");
                 star.classList.add("star");
                 star.innerHTML = "★";
-                star.style.color = "gold"; // Yellow star for saved cards
+                star.style.color = "gold"; 
 
-                // Remove card when star is clicked
+                // Remove card when star is clicked (update locally first)
                 star.addEventListener("click", () => {
                     removeCard(card.imageUrl);
                 });
@@ -63,8 +125,18 @@
             });
         }
 
+        // Sync local changes with GitHub
+        async function syncWithGitHub() {
+            const likedCards = getLikedCardsFromLocalStorage();
+            await saveLikedCardsToGitHub(likedCards);
+            alert('Collection synced with GitHub!');
+        }
+
         document.addEventListener("DOMContentLoaded", loadCollection);
+
+        // Add event listener for sync button
+        document.getElementById("sync-button").addEventListener("click", syncWithGitHub);
+
     </script>
-    <script src="https://cdn.supabase.io/js/supabase.js"></script>
 </body>
 </html>
