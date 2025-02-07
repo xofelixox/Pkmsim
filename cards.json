@@ -20,6 +20,11 @@
     "rarity": "Special Illustration Rare"
   },
   {
+    "name": "Amarys",
+    "imageUrl": "https://images.pokemontcg.io/sv8pt5/170_hires.png",
+    "rarity": "Special Illustration Rare"
+  },
+  {
     "name": "Terapagos ex",
     "imageUrl": "https://images.pokemontcg.io/sv8pt5/180_hires.png",
     "rarity": "Hyper Rare"
@@ -45,8 +50,18 @@
     "rarity": "Double Rare"
   },
   {
+    "name": "Brassius",
+    "imageUrl": "https://images.pokemontcg.io/sv8pt5/135_hires.png",
+    "rarity": "Ultra Rare"
+  },
+  {
     "name": "Miltank",
     "imageUrl": "https://images.pokemontcg.io/sv8pt5/81_hires.png",
     "rarity": "Common"
+  },
+  {
+    "name": "Teal Mask Ogerpon ex",
+    "imageUrl": "https://images.pokemontcg.io/sv8pt5/177_hires.png",
+    "rarity": "Hyper Rare"
   }
 ]
