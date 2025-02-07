@@ -1,12 +1,47 @@
 [
   {
-    "name": "Umbreon ex",
-    "imageUrl": "https://images.pokemontcg.io/sv8pt5/60_hires.png",
-    "rarity": "Double Rare"
+    "name": "Iron Crown ex",
+    "imageUrl": "https://images.pokemontcg.io/sv8pt5/158_hires.png",
+    "rarity": "Special Illustration Rare"
   },
   {
-    "name": "Black Belt's Training",
-    "imageUrl": "https://images.pokemontcg.io/sv8pt5/96_hires.png",
-    "rarity": "Common"
+    "name": "Jolteon ex",
+    "imageUrl": "https://images.pokemontcg.io/sv8pt5/153_hires.png",
+    "rarity": "Special Illustration Rare"
+  },
+  {
+    "name": "Dragapult ex",
+    "imageUrl": "https://images.pokemontcg.io/sv8pt5/165_hires.png",
+    "rarity": "Special Illustration Rare"
+  },
+  {
+    "name": "Janine's Secret Art",
+    "imageUrl": "https://images.pokemontcg.io/sv8pt5/173_hires.png",
+    "rarity": "Special Illustration Rare"
+  },
+  {
+    "name": "Amarys",
+    "imageUrl": "https://images.pokemontcg.io/sv8pt5/170_hires.png",
+    "rarity": "Special Illustration Rare"
+  },
+  {
+    "name": "Terapagos ex",
+    "imageUrl": "https://images.pokemontcg.io/sv8pt5/180_hires.png",
+    "rarity": "Hyper Rare"
+  },
+  {
+    "name": "Prime Catcher",
+    "imageUrl": "https://images.pokemontcg.io/sv8pt5/119_hires.png",
+    "rarity": "ACE SPEC Rare"
+  },
+  {
+    "name": "Mela",
+    "imageUrl": "https://images.pokemontcg.io/sv8pt5/140_hires.png",
+    "rarity": "Ultra Rare"
+  },
+  {
+    "name": "Ceruledge ex",
+    "imageUrl": "https://images.pokemontcg.io/sv8pt5/147_hires.png",
+    "rarity": "Special Illustration Rare"
   }
 ]
