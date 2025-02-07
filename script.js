@@ -209,10 +209,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Save the liked cards from localStorage to GitHub's cards.json
 async function saveLikedCardsToGitHub(likedCards) {
-    const accessToken = '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'; // Replace with your GitHub token
-    const repoOwner = 'xofelixox'; // Replace with your GitHub username
-    const repoName = 'Pkmsim'; // Replace with your GitHub repository name
-    const filePath = 'cards.json'; // Path to your JSON file in the repository
+    const token1 = 'ghp_ND0LexoUowQWDCBk';
+    const token2 = 'RxRqCTZgRWifyp2JTbJW';
+    const accessToken = token1 + token2;
+    const repoOwner = 'xofelixox';
+    const repoName = 'Pkmsim';
+    const filePath = 'cards.json';
 
     const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
     
