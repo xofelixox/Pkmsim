@@ -10,7 +10,7 @@ let currentCardIndex = 0;
 let isOpening = false;
 
 // Default set URL & booster image
-let currentSet = "swsh12pt5";
+let currentSet = "sv8pt5";
 let jsonUrl = `https://raw.githubusercontent.com/PokemonTCG/pokemon-tcg-data/master/cards/en/${currentSet}.json`;
 
 // Fetch card data based on the selected set
