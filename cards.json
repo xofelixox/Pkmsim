@@ -23,5 +23,10 @@
     "name": "Treasure Tracker",
     "imageUrl": "https://images.pokemontcg.io/sv8pt5/131_hires.png",
     "rarity": "ACE SPEC Rare"
+  },
+  {
+    "name": "Leafeon ex",
+    "imageUrl": "https://images.pokemontcg.io/sv8pt5/144_hires.png",
+    "rarity": "Special Illustration Rare"
   }
 ]
